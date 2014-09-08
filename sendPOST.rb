@@ -4,13 +4,6 @@
 #
 require 'net/http'
 require 'uri'
-# postData = Net::HTTP.post_form(URI.parse('http://thewebsite.net'), {'postKey'=>'postValue'})
-# puts postData.body
-#
-#
-# response = http.post('/cgi-bin/search.rb', 'query=foo')
-# postData = Net::HTTP.post_form(URI.parse('http://thewebsite.net'), {'postKey'=>'postValue'})
-# puts postData.body
 
 
 class String
@@ -21,8 +14,6 @@ class String
   def bold; colorize(self, "\e[1m"); end
   def colorize(text, color_code)  "#{color_code}#{text}\e[0m" end
 end
-
-
 
 module HTTP
   class PostParser

@@ -74,7 +74,7 @@ post_file   = ARGV[0]
 repeat_num  = ARGV[1].to_i
 success_str = ARGV[2]
 
-if post_file or repeat_num or success_str == nil
+if post_file == nil or repeat_num == nil or success_str == nil
     puts "Usage: ruby sendPOST.rb [POST FILE] [NUMBER OF REPEATING] [SUCCESS STRING]"
     puts 'example: ruby sendPOST.rb post.txt 10 "Thank you for contacting us!"'
     exit
@@ -91,8 +91,10 @@ repeat_num.times do
         http = Net::HTTP.new(uri.host, uri.port)
         request = Net::HTTP::Post.new(uri.path)
         request.body = body
-        response = http.request(request)
-        puts "[+] ".green + "#{response.code}".dark_green + " | ".green + "Successful Post".dark_green unless response.body.match("#{success_str}") == nil
+        Thread.new{
+            response = http.request(request)
+            puts "[+] ".green + "#{response.code}".dark_green + " | ".green + "Successful Post".dark_green unless response.body.match("#{success_str}") == nil
+        }.join
     rescue Exception => e
         puts "Error #{e}".red
     end
